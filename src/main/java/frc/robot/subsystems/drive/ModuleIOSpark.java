@@ -181,7 +181,7 @@ CANcoderConfiguration cancoderConfig = new CANcoderConfiguration();
         5,
         () ->
             turnEncoder.setPosition(
-                turnAbsEncoder.getAbsolutePosition(true).getValueAsDouble()* 2 * Math.PI
+                turnAbsEncoder.getAbsolutePosition().getValueAsDouble() * 2 * Math.PI
                     ));
 
     // Create odometry queues
@@ -226,7 +226,7 @@ CANcoderConfiguration cancoderConfig = new CANcoderConfiguration();
         drivePositionQueue.stream().mapToDouble((Double value) -> value).toArray();
     inputs.odometryTurnPositions =
         turnPositionQueue.stream()
-            .map((Double value) -> new Rotation2d(value).minus(zeroRotation))
+            .map((Double value) -> new Rotation2d(value))
             .toArray(Rotation2d[]::new);
     timestampQueue.clear();
     drivePositionQueue.clear();
