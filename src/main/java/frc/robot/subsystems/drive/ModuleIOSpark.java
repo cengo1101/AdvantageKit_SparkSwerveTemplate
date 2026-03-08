@@ -173,7 +173,7 @@ public class ModuleIOSpark implements ModuleIO {
             turnSpark.configure(
                 turnConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
 CANcoderConfiguration cancoderConfig = new CANcoderConfiguration();
-    cancoderConfig.MagnetSensor.MagnetOffset = zeroRotation.getRotations();
+    cancoderConfig.MagnetSensor.MagnetOffset = 0;
     turnAbsEncoder.getConfigurator().apply(cancoderConfig);
 
     tryUntilOk(
@@ -226,7 +226,7 @@ CANcoderConfiguration cancoderConfig = new CANcoderConfiguration();
         drivePositionQueue.stream().mapToDouble((Double value) -> value).toArray();
     inputs.odometryTurnPositions =
         turnPositionQueue.stream()
-            .map((Double value) -> new Rotation2d(value))
+            .map((Double value) -> new Rotation2d(value).minus(zeroRotation))
             .toArray(Rotation2d[]::new);
     timestampQueue.clear();
     drivePositionQueue.clear();
